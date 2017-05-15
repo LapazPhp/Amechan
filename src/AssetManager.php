@@ -6,23 +6,40 @@ use Webmozart\PathUtil\Path;
 class AssetManager
 {
     /**
+     * Named and registered assets under management
+     *
      * @var UrlCollectableInterface[]
      */
     protected $assets = [];
 
     /**
+     * URL mappings of public source to compiled one
+     *
      * @var array
      */
     protected $mapping = [];
 
     /**
+     * Revision hash mappings
+     *
      * @var array
      */
     protected $revManifest = [];
 
     /**
-     * @param array $config
-     * @return Asset
+     * Config array based Asset factory.
+     *
+     * `$config` elements:
+     * - baseUrl: (string) URL prefix
+     * - files: (array) Resources included
+     * - file: (string) Singular form of `files`
+     * - section: (string) Section name in HTML
+     * - bundles: (array[]) Config array list describing nested assets
+     * - dependencies: (string[]|UrlCollectable[]) Dependencies to pre-loaded assets
+     * - dependency: (string|UrlCollectable) Singular form of `dependencies`
+     *
+     * @param array $config Asset creation config.
+     * @return Asset New configured Asset instance.
      */
     public function newBundle(array $config = [])
     {
@@ -88,7 +105,9 @@ class AssetManager
     }
 
     /**
-     * @return AssetCollection
+     * AssetCollection factory.
+     *
+     * @return AssetCollection Empty collection of assets.
      */
     public function newCollection()
     {
@@ -97,8 +116,10 @@ class AssetManager
     }
 
     /**
-     * @param string $name
-     * @param UrlCollectableInterface $source
+     * Registers an asset (or some UrlCollectableInterface) to the manager.
+     *
+     * @param string $name Registration name of asset.
+     * @param UrlCollectableInterface $source Url source in most case Asset object.
      */
     public function set($name, UrlCollectableInterface $source)
     {
@@ -106,8 +127,10 @@ class AssetManager
     }
 
     /**
-     * @param string $name
-     * @return bool
+     * Returns the named asset is registered or not.
+     *
+     * @param string $name Asset name to be checked.
+     * @return bool Existence of named asset.
      */
     public function has($name)
     {
@@ -115,8 +138,10 @@ class AssetManager
     }
 
     /**
-     * @param string $name
-     * @return UrlCollectableInterface
+     * Returns registered asset (or some UrlCollectableInterface) by name.
+     *
+     * @param string $name Asset name to be fetched.
+     * @return UrlCollectableInterface Url source in most case Asset object.
      */
     public function get($name)
     {
@@ -124,17 +149,32 @@ class AssetManager
     }
 
     /**
-     * @param string $name
-     * @param array $definition
+     * Defines and registers Asset by config array.
+     * This is utility method to combine `newBundle()` and `set()`.
+     *
+     * @param string $name Registration name of asset.
+     * @param array $config Asset creation config.
+     * @see AssetManager::newBundle()
+     * @see AssetManager::set()
      */
-    public function asset($name, array $definition = [])
+    public function asset($name, array $config = [])
     {
-        $this->set($name, $this->newBundle($definition));
+        $this->set($name, $this->newBundle($config));
     }
 
     /**
-     * @param string $baseUrl
-     * @param array $mapping
+     * Maps URLs which compiled JSes/CSSes are built from.
+     *
+     * ```
+     * $mapping = [
+     *     // 'compiled'     => ['sources', ...]
+     *     'css/all.min.css' => ['css/bootstrap.css'],
+     *     'js/all.min.js'   => ['js/jquery.js', 'js/bootstrap.js'],
+     * ]
+     * ```
+     *
+     * @param string $baseUrl URL prefix.
+     * @param array $mapping Compiled to sources map.
      */
     public function map($baseUrl, array $mapping)
     {
@@ -157,8 +197,25 @@ class AssetManager
     }
 
     /**
-     * @param string $baseUrl
-     * @param array $manifest
+     * Maps built resources to its revision hash appended version.
+     *
+     * ```
+     * $manifest = [
+     *     'css/all.min.css' => 'css/all-33f4c35457.min.css',
+     *     'js/all.min.js' => 'js/all-5d8020ef9b.min.js',
+     * ];
+     * ```
+     *
+     * `$manifest` can be loaded from `rev-manifest.json` as:
+     *
+     * ```
+     * json_decode(file_get_contents('local/path/to/rev-manifest.json'), true));
+     * ```
+     *
+     * Hint: Revision hash is effective even for images and fonts not only CSS/JS.
+     *
+     * @param string $baseUrl URL prefix.
+     * @param array $manifest Revision hash manifest data.
      */
     public function rev($baseUrl, array $manifest)
     {
@@ -176,8 +233,10 @@ class AssetManager
     }
 
     /**
-     * @param string $url
-     * @return string
+     * Returns single URL applied managed mappings.
+     *
+     * @param string $url URL to source resource.
+     * @return string Alternative URL if mapping applied.
      */
     public function url($url)
     {

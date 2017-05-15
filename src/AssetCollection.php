@@ -4,19 +4,23 @@ namespace Lapaz\Amechan;
 class AssetCollection implements UrlCollectableInterface
 {
     /**
+     * AssetManager reference as dependency/mapping resolver
+     *
      * @var AssetManager
      */
     protected $manager;
 
     /**
+     * Asset like objects which added the collection
+     *
      * @var UrlCollectableInterface[]
      */
     protected $assets;
 
     /**
-     * AssetUsage constructor.
+     * AssetCollection constructor.
      *
-     * @param AssetManager $manager
+     * @param AssetManager $manager Reference to AssetManager. This reference used when resolving dependency/mapping.
      */
     public function __construct(AssetManager $manager)
     {
@@ -25,7 +29,9 @@ class AssetCollection implements UrlCollectableInterface
     }
 
     /**
-     * @param UrlCollectableInterface|string $asset
+     * Adds an asset to this collection.
+     *
+     * @param UrlCollectableInterface|string $asset Asset object or registration name in AssetManager.
      */
     public function add($asset)
     {
@@ -40,8 +46,7 @@ class AssetCollection implements UrlCollectableInterface
     }
 
     /**
-     * @param string $section
-     * @return array
+     * @inheritDoc
      */
     public function collectUrls($section = null)
     {
