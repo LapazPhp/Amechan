@@ -1,0 +1,6 @@
+composer.lock
+/vendor/
+
+/example/node_modules/
+/example/web/assets/dist/
+/example/web/assets/vendor/
