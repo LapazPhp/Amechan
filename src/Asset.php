@@ -4,7 +4,10 @@ namespace Lapaz\Amechan;
 use Webmozart\PathUtil\Path;
 
 /**
- * Asset management unit
+ * Asset is a management unit of assets.
+ *
+ * Asset instance contains 0 or more files and dependencies. Then it can generate
+ * an unique set of URLs.
  */
 class Asset implements UrlCollectableInterface
 {

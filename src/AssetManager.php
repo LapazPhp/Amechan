@@ -3,6 +3,32 @@ namespace Lapaz\Amechan;
 
 use Webmozart\PathUtil\Path;
 
+/**
+ * AssetManager is the top level object of asset management.
+ *
+ * AssetManager contains all application assets and its mappings.
+ *
+ * Single resource example:
+ *
+ * ```
+ * $assetManager = new AssetManager();
+ * $assetManager->map(...);
+ * $assetManager->rev(...);
+ *
+ * $publicUrl = $assetManager->url($sourceUrl); // e.g. all-<rev hash>.min.css
+ * ```
+ *
+ * Resource set (called Asset) example:
+ *
+ * ```
+ * $assetManager->asset('foo', [...]);
+ * $assetManager->asset('bar', [...]);
+ *
+ * $assets = $assetManager->newCollection();
+ * $assets->add('foo');
+ * $assets->collectUrls('css'); // CSSes included by 'foo' and its dependencies
+ * ```
+ */
 class AssetManager
 {
     /**

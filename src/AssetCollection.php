@@ -1,6 +1,11 @@
 <?php
 namespace Lapaz\Amechan;
 
+/**
+ * AssetCollection is a contextually required set of Asset instances.
+ *
+ * Like an Asset, AssetCollection can generate URL set from multiple assets.
+ */
 class AssetCollection implements UrlCollectableInterface
 {
     /**
