@@ -1,5 +1,7 @@
 # Amechan : Asset Manager Essentials Chain
 
+[![Build Status](https://travis-ci.org/LapazPhp/Amechan.svg?branch=master)](https://travis-ci.org/LapazPhp/Amechan)
+
 Amechan (means candy drop in Osaka, Japan) is a lightweight pre-processed asset link manager for PHP.
 This library has no side effects unlink Assetic, Sprockets Rails or such as, instead it works better with NodeJS tools like Gulp.
 
