@@ -271,46 +271,4 @@ class AssetManagerTest extends \PHPUnit_Framework_TestCase
         $manager->mapping($mapper2);
         $this->assertEquals('/js/jquery-0123456789.min.js', $manager->url('/js/jquery.js'));
     }
-
-//    public function testMappedUrl()
-//    {
-//        $manager = new AssetManager();
-//
-//        $manager->map('/js/', [
-//            'jquery.min.js' => 'jquery.js',
-//        ]);
-//
-//        $this->assertEquals('/js/jquery.min.js', $manager->url('/js/jquery.js'));
-//
-//        $manager = new AssetManager();
-//
-//        $manager->map('/js/', [
-//            'all.min.js' => [
-//                'jquery.js',
-//                'bootstrap.js',
-//            ]
-//        ]);
-//
-//        $this->assertEquals('/js/all.min.js', $manager->url('/js/jquery.js'));
-//        $this->assertEquals('/js/app.js', $manager->url('/js/app.js'));
-//    }
-//
-//    public function testRevisionUrl()
-//    {
-//        $manager = new AssetManager();
-//
-//        $manager->map('/js/', [
-//            'all.min.js' => [
-//                'jquery.js',
-//                'bootstrap.js',
-//            ]
-//        ]);
-//
-//        $manager->rev('/js/', [
-//            'all.min.js' => 'all-0123456789.min.js',
-//        ]);
-//
-//        $this->assertEquals('/js/all-0123456789.min.js', $manager->url('/js/jquery.js'));
-//        $this->assertEquals('/js/app.js', $manager->url('/js/app.js'));
-//    }
 }

@@ -15,7 +15,6 @@ use Webmozart\PathUtil\Path;
  * ]
  * ```
  */
-
 class UnifiedResourceMapper implements UrlMapperInterface
 {
     /**
