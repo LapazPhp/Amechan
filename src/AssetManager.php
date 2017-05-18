@@ -1,24 +1,10 @@
 <?php
 namespace Lapaz\Amechan;
 
-use Webmozart\PathUtil\Path;
-
 /**
  * AssetManager is the top level object of asset management.
  *
  * AssetManager contains all application assets and its mappings.
- *
- * Single resource example:
- *
- * ```
- * $assetManager = new AssetManager();
- * $assetManager->map(...);
- * $assetManager->rev(...);
- *
- * $publicUrl = $assetManager->url($sourceUrl); // e.g. all-<rev hash>.min.css
- * ```
- *
- * Resource set (called Asset) example:
  *
  * ```
  * $assetManager->asset('foo', [...]);
@@ -26,6 +12,7 @@ use Webmozart\PathUtil\Path;
  *
  * $assets = $assetManager->newCollection();
  * $assets->add('foo');
+ *
  * $assets->collectUrls('css'); // CSSes included by 'foo' and its dependencies
  * ```
  */
@@ -39,18 +26,11 @@ class AssetManager
     protected $assets = [];
 
     /**
-     * URL mappings of public source to compiled one
+     * URL mapper pipeline
      *
-     * @var array
+     * @var UrlMapperInterface[]
      */
-    protected $mapping = [];
-
-    /**
-     * Revision hash mappings
-     *
-     * @var array
-     */
-    protected $revManifest = [];
+    protected $mapperPipeline = [];
 
     /**
      * Config array based Asset factory.
@@ -189,73 +169,11 @@ class AssetManager
     }
 
     /**
-     * Maps URLs which compiled JSes/CSSes are built from.
-     *
-     * ```
-     * $mapping = [
-     *     // 'compiled'     => ['sources', ...]
-     *     'css/all.min.css' => ['css/bootstrap.css'],
-     *     'js/all.min.js'   => ['js/jquery.js', 'js/bootstrap.js'],
-     * ]
-     * ```
-     *
-     * @param string $baseUrl URL prefix.
-     * @param array $mapping Compiled to sources map.
+     * @param UrlMapperInterface $mapper
      */
-    public function map($baseUrl, array $mapping)
+    public function mapping(UrlMapperInterface $mapper)
     {
-        foreach ($mapping as $combined => $sources) {
-            if (!is_array($sources)) {
-                $sources = [$sources];
-            }
-
-            if (!empty($baseUrl)) {
-                $combined = Path::join([$baseUrl, $combined]);
-                $sources = array_map(function ($s) use ($baseUrl) {
-                    return Path::join([$baseUrl, $s]);
-                }, $sources);
-            }
-
-            foreach ($sources as $s) {
-                $this->mapping[$s] = $combined;
-            }
-        }
-    }
-
-    /**
-     * Maps built resources to its revision hash appended version.
-     *
-     * ```
-     * $manifest = [
-     *     'css/all.min.css' => 'css/all-33f4c35457.min.css',
-     *     'js/all.min.js' => 'js/all-5d8020ef9b.min.js',
-     * ];
-     * ```
-     *
-     * `$manifest` can be loaded from `rev-manifest.json` as:
-     *
-     * ```
-     * json_decode(file_get_contents('local/path/to/rev-manifest.json'), true));
-     * ```
-     *
-     * Hint: Revision hash is effective even for images and fonts not only CSS/JS.
-     *
-     * @param string $baseUrl URL prefix.
-     * @param array $manifest Revision hash manifest data.
-     */
-    public function rev($baseUrl, array $manifest)
-    {
-        if (!empty($baseUrl)) {
-            $prefixedManifest = [];
-            foreach ($manifest as $k => $v) {
-                $from = Path::join([$baseUrl, $k]);
-                $to = Path::join([$baseUrl, $v]);
-                $prefixedManifest[$from] = $to;
-            }
-            $manifest = $prefixedManifest;
-        }
-
-        $this->revManifest = array_merge($this->revManifest, $manifest);
+        $this->mapperPipeline[] = $mapper;
     }
 
     /**
@@ -266,11 +184,8 @@ class AssetManager
      */
     public function url($url)
     {
-        if (isset($this->mapping[$url])) {
-            $url = $this->mapping[$url];
-        }
-        if (isset($this->revManifest[$url])) {
-            $url = $this->revManifest[$url];
+        foreach ($this->mapperPipeline as $mapper) {
+            $url = $mapper->apply($url);
         }
         return $url;
     }

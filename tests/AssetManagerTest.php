@@ -239,45 +239,78 @@ class AssetManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['/js/jquery.js'], $asset->collectUrls());
     }
 
-    public function testMappedUrl()
+    public function testSingleUrlMapping()
     {
-        $manager = new AssetManager();
-
-        $manager->map('/js/', [
-            'jquery.min.js' => 'jquery.js',
+        /** @var UrlMapperInterface|\PHPUnit_Framework_MockObject_MockObject $mapper */
+        $mapper = $this->createMock(UrlMapperInterface::class);
+        $mapper->method('apply')->willReturnMap([
+            ['/js/jquery.js', '/js/jquery.min.js'],
         ]);
 
+        $manager = new AssetManager();
+        $manager->mapping($mapper);
         $this->assertEquals('/js/jquery.min.js', $manager->url('/js/jquery.js'));
-
-        $manager = new AssetManager();
-
-        $manager->map('/js/', [
-            'all.min.js' => [
-                'jquery.js',
-                'bootstrap.js',
-            ]
-        ]);
-
-        $this->assertEquals('/js/all.min.js', $manager->url('/js/jquery.js'));
-        $this->assertEquals('/js/app.js', $manager->url('/js/app.js'));
     }
 
-    public function testRevisionUrl()
+    public function testMultipleUrlMapping()
     {
+        /** @var UrlMapperInterface|\PHPUnit_Framework_MockObject_MockObject $mapper */
+        $mapper = $this->createMock(UrlMapperInterface::class);
+        $mapper->method('apply')->willReturnMap([
+            ['/js/jquery.js', '/js/jquery.min.js'],
+        ]);
+
+        /** @var UrlMapperInterface|\PHPUnit_Framework_MockObject_MockObject $mapper2 */
+        $mapper2 = $this->createMock(UrlMapperInterface::class);
+        $mapper2->method('apply')->willReturnMap([
+            ['/js/jquery.min.js', '/js/jquery-0123456789.min.js'],
+        ]);
+
         $manager = new AssetManager();
-
-        $manager->map('/js/', [
-            'all.min.js' => [
-                'jquery.js',
-                'bootstrap.js',
-            ]
-        ]);
-
-        $manager->rev('/js/', [
-            'all.min.js' => 'all-0123456789.min.js',
-        ]);
-
-        $this->assertEquals('/js/all-0123456789.min.js', $manager->url('/js/jquery.js'));
-        $this->assertEquals('/js/app.js', $manager->url('/js/app.js'));
+        $manager->mapping($mapper);
+        $manager->mapping($mapper2);
+        $this->assertEquals('/js/jquery-0123456789.min.js', $manager->url('/js/jquery.js'));
     }
+
+//    public function testMappedUrl()
+//    {
+//        $manager = new AssetManager();
+//
+//        $manager->map('/js/', [
+//            'jquery.min.js' => 'jquery.js',
+//        ]);
+//
+//        $this->assertEquals('/js/jquery.min.js', $manager->url('/js/jquery.js'));
+//
+//        $manager = new AssetManager();
+//
+//        $manager->map('/js/', [
+//            'all.min.js' => [
+//                'jquery.js',
+//                'bootstrap.js',
+//            ]
+//        ]);
+//
+//        $this->assertEquals('/js/all.min.js', $manager->url('/js/jquery.js'));
+//        $this->assertEquals('/js/app.js', $manager->url('/js/app.js'));
+//    }
+//
+//    public function testRevisionUrl()
+//    {
+//        $manager = new AssetManager();
+//
+//        $manager->map('/js/', [
+//            'all.min.js' => [
+//                'jquery.js',
+//                'bootstrap.js',
+//            ]
+//        ]);
+//
+//        $manager->rev('/js/', [
+//            'all.min.js' => 'all-0123456789.min.js',
+//        ]);
+//
+//        $this->assertEquals('/js/all-0123456789.min.js', $manager->url('/js/jquery.js'));
+//        $this->assertEquals('/js/app.js', $manager->url('/js/app.js'));
+//    }
 }
