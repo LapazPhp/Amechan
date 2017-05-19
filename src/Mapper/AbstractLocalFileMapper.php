@@ -52,6 +52,11 @@ abstract class AbstractLocalFileMapper implements UrlMapperInterface
         }
 
         $path = substr($url, strlen($this->baseUrl));
+        if (empty($path)) {
+            // URL length equals to or greater than baseUrl:
+            return $url;
+        }
+
         $file = Path::join([$this->baseDir, $path]);
         if (!is_file($file)) {
             throw new \UnexpectedValueException('Target resource is not a file: ' . $file);

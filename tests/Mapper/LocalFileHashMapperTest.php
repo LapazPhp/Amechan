@@ -81,6 +81,6 @@ class LocalFileHashMapperTest extends \PHPUnit_Framework_TestCase
     public function testApplyToNonFile()
     {
         $mapper = new LocalFileHashMapper('/js', vfsStream::url('js'));
-        $mapper->apply('/js');
+        $mapper->apply('/js/missing.js');
     }
 }
