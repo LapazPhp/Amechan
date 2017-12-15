@@ -136,9 +136,9 @@ if (is_dir(__DIR__ . '/../public/assets/dist')) {
 URLs can be replaced to revision hashed version.
 
 ```php
-if (is_file(__DIR__ . '/../web/assets/dist/rev-manifest.json')) {
+if (is_file(__DIR__ . '/../public/assets/dist/rev-manifest.json')) {
     $manifest = json_decode(file_get_contents(
-        __DIR__ . '/../web/assets/dist/rev-manifest.json'
+        __DIR__ . '/../public/assets/dist/rev-manifest.json'
     ), true);
     $assetManager->mapping(new RevisionHashMapper('/assets/dist/', $manifest));
 }
