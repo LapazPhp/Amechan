@@ -39,9 +39,9 @@ if (is_dir(__DIR__ . '/../public/assets/dist')) {
     ]));
 
     // URLs are replaced to revision hashed version.
-    if (is_file(__DIR__ . '/../web/assets/dist/rev-manifest.json')) {
+    if (is_file(__DIR__ . '/../public/assets/dist/rev-manifest.json')) {
         $manifest = json_decode(file_get_contents(
-            __DIR__ . '/../web/assets/dist/rev-manifest.json'
+            __DIR__ . '/../public/assets/dist/rev-manifest.json'
         ), true);
         $am->mapping(new RevisionHashMapper('/assets/dist/', $manifest));
     }
