@@ -1,7 +1,9 @@
 <?php
 namespace Lapaz\Amechan;
 
-class AssetCollectionTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AssetCollectionTest extends TestCase
 {
     /**
      * @var AssetManager|\PHPUnit_Framework_MockObject_MockObject

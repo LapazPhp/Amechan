@@ -1,7 +1,9 @@
 <?php
 namespace Lapaz\Amechan\Mapper;
 
-class UnifiedResourceMapperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class UnifiedResourceMapperTest extends TestCase
 {
     public function testApply()
     {

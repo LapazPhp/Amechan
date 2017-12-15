@@ -4,9 +4,13 @@ namespace Lapaz\Amechan\Mapper;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamWrapper;
+use PHPUnit\Framework\TestCase;
 
-class LocalFileTimestampHashMapperTest extends \PHPUnit_Framework_TestCase
+class LocalFileTimestampHashMapperTest extends TestCase
 {
+    /**
+     * @throws \org\bovigo\vfs\vfsStreamException
+     */
     protected function setUp()
     {
         vfsStreamWrapper::register();

@@ -1,7 +1,9 @@
 <?php
 namespace Lapaz\Amechan;
 
-class AssetManagerTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AssetManagerTest extends TestCase
 {
     public function testNewBundle()
     {

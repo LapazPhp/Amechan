@@ -1,7 +1,9 @@
 <?php
 namespace Lapaz\Amechan\Mapper;
 
-class RevisionHashMapperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RevisionHashMapperTest extends TestCase
 {
     public function testRevisionUrl()
     {
