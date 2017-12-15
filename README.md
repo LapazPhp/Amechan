@@ -98,7 +98,7 @@ All required assets are collected and expanded there.
     :
 <script src="/assets/vendor/jquery/dist/jquery.js"></script>
 <script src="/assets/vendor/bootstrap/dist/js/bootstrap.js"></script>
-<script src="/assets/vendor/bootstrap/dist/js/some-jquery-plugin.js"></script>
+<script src="/assets/js/some-jquery-plugin.js"></script>
 </body>
 ```
 
