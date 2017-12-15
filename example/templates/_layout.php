@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title><?= $this->e($title) ?></title>
+    <!-- Actually used Amechan managed CSSes are listed -->
     <?php foreach ($this->assets()->collectUrls('css') as $url): ?>
         <link href="<?= $url ?>" rel="stylesheet">
     <?php endforeach; ?>
@@ -25,6 +26,7 @@
     </footer>
 </div>
 
+<!-- Actually used Amechan managed JSes are listed -->
 <?php foreach ($this->assets()->collectUrls('js') as $url): ?>
     <script src="<?= $url ?>"></script>
 <?php endforeach; ?>

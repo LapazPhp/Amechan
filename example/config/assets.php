@@ -3,7 +3,7 @@ use Lapaz\Amechan\AssetManager;
 use Lapaz\Amechan\Mapper\RevisionHashMapper;
 use Lapaz\Amechan\Mapper\UnifiedResourceMapper;
 
-$am = new AssetManager();
+/** @var AssetManager $am */
 
 $am->asset('jquery', [
     'file' => '/assets/vendor/jquery/dist/jquery.js',
@@ -26,7 +26,7 @@ $am->asset('bootstrap', [
 ]);
 
 // URLs are mapped when compiled version assets exist.
-if (is_dir(__DIR__ . '/../web/assets/dist')) {
+if (is_dir(__DIR__ . '/../public/assets/dist')) {
     $am->mapping(new UnifiedResourceMapper('/assets', [
         'dist/css/all.min.css' => [
             'vendor/bootstrap/dist/css/bootstrap.css',
@@ -46,5 +46,3 @@ if (is_dir(__DIR__ . '/../web/assets/dist')) {
         $am->mapping(new RevisionHashMapper('/assets/dist/', $manifest));
     }
 }
-
-return $am;
