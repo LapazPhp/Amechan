@@ -1,5 +1,6 @@
 composer.lock
 /vendor/
+.phpunit.result.cache
 
 /example/package-lock.json
 /example/node_modules/

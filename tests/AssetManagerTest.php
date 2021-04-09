@@ -1,6 +1,7 @@
 <?php
 namespace Lapaz\Amechan;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AssetManagerTest extends TestCase
@@ -174,11 +175,10 @@ class AssetManagerTest extends TestCase
         ], $bootstrapAsset->collectUrls('js'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidSubBundle()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $manager = new AssetManager();
 
         $manager->newBundle([
@@ -186,11 +186,9 @@ class AssetManagerTest extends TestCase
         ]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testInvalidSubBundleContent()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $manager = new AssetManager();
 
         $manager->newBundle([
@@ -243,7 +241,7 @@ class AssetManagerTest extends TestCase
 
     public function testSingleUrlMapping()
     {
-        /** @var UrlMapperInterface|\PHPUnit_Framework_MockObject_MockObject $mapper */
+        /** @var UrlMapperInterface|MockObject $mapper */
         $mapper = $this->createMock(UrlMapperInterface::class);
         $mapper->method('apply')->willReturnMap([
             ['/js/jquery.js', '/js/jquery.min.js'],
@@ -256,13 +254,13 @@ class AssetManagerTest extends TestCase
 
     public function testMultipleUrlMapping()
     {
-        /** @var UrlMapperInterface|\PHPUnit_Framework_MockObject_MockObject $mapper */
+        /** @var UrlMapperInterface|MockObject $mapper */
         $mapper = $this->createMock(UrlMapperInterface::class);
         $mapper->method('apply')->willReturnMap([
             ['/js/jquery.js', '/js/jquery.min.js'],
         ]);
 
-        /** @var UrlMapperInterface|\PHPUnit_Framework_MockObject_MockObject $mapper2 */
+        /** @var UrlMapperInterface|MockObject $mapper2 */
         $mapper2 = $this->createMock(UrlMapperInterface::class);
         $mapper2->method('apply')->willReturnMap([
             ['/js/jquery.min.js', '/js/jquery-0123456789.min.js'],

@@ -1,12 +1,13 @@
 <?php
 namespace Lapaz\Amechan;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AssetCollectionTest extends TestCase
 {
     /**
-     * @var AssetManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var AssetManager|MockObject
      */
     protected $manager;
 
@@ -100,16 +101,15 @@ class AssetCollectionTest extends TestCase
         ], $urls);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testAddMissingName()
     {
+        $this->expectException(\RuntimeException::class);
+
         $collection = new AssetCollection($this->manager);
         $collection->add('jquery');
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->manager = $this->createMock(AssetManager::class);
     }

@@ -1,12 +1,13 @@
 <?php
 namespace Lapaz\Amechan;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AssetTest extends TestCase
 {
     /**
-     * @var AssetManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var AssetManager|MockObject
      */
     protected $manager;
 
@@ -83,11 +84,10 @@ class AssetTest extends TestCase
         ], $urls, "Urls must be ordered according to dependency chain");
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testMissingDependencyName()
     {
+        $this->expectException(\RuntimeException::class);
+
         $this->manager->method('has')->willReturn(false);
 
         $bootstrapJs = new Asset($this->manager, '/js', [
@@ -132,7 +132,7 @@ class AssetTest extends TestCase
         ], $jsUrls);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->manager = $this->createMock(AssetManager::class);
 

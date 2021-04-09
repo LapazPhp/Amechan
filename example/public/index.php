@@ -1,16 +1,20 @@
 <?php
 require __DIR__ . '/../../vendor/autoload.php';
 
-$app = new Slim\App();
-$container = $app->getContainer();
-require __DIR__ . '/../config/di.php';
+$containerBuilder = new \DI\ContainerBuilder();
+$containerBuilder->addDefinitions(require __DIR__ . '/../config/di.php');
+
+\Slim\Factory\AppFactory::setContainer($containerBuilder->build());
+$app = \Slim\Factory\AppFactory::create();
 
 $app->get('/', function($request, $response) {
-    return $this->view->render($response, 'index');
+    $response->getBody()->write($this->get('view')->render('index'));
+    return $response;
 });
 
 $app->get('/no-bootstrap-page', function($request, $response) {
-    return $this->view->render($response, 'no-bootstrap-page');
+    $response->getBody()->write($this->get('view')->render('no-bootstrap-page'));
+    return $response;
 });
 
 $app->run();

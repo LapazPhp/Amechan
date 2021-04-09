@@ -11,7 +11,7 @@ class LocalFileHashMapperTest extends TestCase
     /**
      * @throws \org\bovigo\vfs\vfsStreamException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('css'));
@@ -79,11 +79,10 @@ class LocalFileHashMapperTest extends TestCase
         $this->assertEquals('/js/jquery.js?hash-hash-hash', $mapper->apply('/js/jquery.js'));
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     */
     public function testApplyToNonFile()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $mapper = new LocalFileHashMapper('/js', vfsStream::url('js'));
         $mapper->apply('/js/missing.js');
     }

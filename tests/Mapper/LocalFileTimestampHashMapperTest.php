@@ -11,7 +11,7 @@ class LocalFileTimestampHashMapperTest extends TestCase
     /**
      * @throws \org\bovigo\vfs\vfsStreamException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('css'));
