@@ -1,6 +1,7 @@
 composer.lock
 /vendor/
 
+/example/package-lock.json
 /example/node_modules/
-/example/web/assets/dist/
-/example/web/assets/vendor/
+/example/public/assets/dist/
+/example/public/assets/vendor/
